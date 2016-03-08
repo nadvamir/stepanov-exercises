@@ -3,33 +3,27 @@
 
 #include <algorithm>
 
-template<class It>
-It median(It first, It last)
+template<class Val>
+Val median(Val a, Val b, Val c)
 {
-    It mid = first;
-    std::advance(mid, std::distance(first, last) / 2);
-    --last;
-
-    if (*first < *last) {
-        if (*last < *mid) return last;
-        return *first < *mid ? mid : first;
+    if (a < c) {
+        if (c < b) return c;
+        if (a < b) return b;
+        return a;
     }
-    else if (*last < *first) {
-        if (*first < *mid) return first;
-        return *last < *mid ? mid : last;
-    }
-    return *first < *mid ? first : mid;
+    if (b < c) return c;
+    if (a < b) return a;
+    return b;
 }
 
-template<class It>
-It partition(It first, It last, It pivot)
+template<class It, class Val>
+It mypartition(It first, It last, Val pivot)
 {
-    auto pivotValue = *pivot;
     --last;
 
     while (first < last) {
-        while (*first < pivotValue) ++first;
-        while (pivotValue < *last) --last;
+        while (*first < pivot) ++first;
+        while (pivot < *last) --last;
 
         if (*first != *last) {
             std::swap(*first, *last);
@@ -57,16 +51,17 @@ void quickSort(It first, It last)
 {
     using namespace std;
     while (std::distance(first, last) > 16) {
-        It pivot = median(first, last);
-        pivot = partition(first, last, pivot);
+        It middle = first + (last - first) / 2;
+        auto pivot = median(*first, *middle, *(last - 1));
+        It mid = mypartition(first, last, pivot);
 
-        if (pivot - first < last - pivot) {
-            quickSort(first, pivot);
-            first = ++pivot;
+        if (mid - first < last - mid) {
+            quickSort(first, mid);
+            first = ++mid;
         }
         else {
-            quickSort(pivot + 1, last);
-            last = pivot;
+            quickSort(mid + 1, last);
+            last = mid;
         }
     }
     insertionSort(first, last);
