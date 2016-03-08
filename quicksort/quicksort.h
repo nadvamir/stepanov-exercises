@@ -43,10 +43,20 @@ It partition(It first, It last, It pivot)
 }
 
 template<class It>
+void insertionSort(It first, It last)
+{
+    for (It i = first + 1; i < last; ++i) {
+        for (It j = i; j != first && *j < *(j - 1); --j) {
+            std::iter_swap(j, j - 1);
+        }
+    }
+}
+
+template<class It>
 void quickSort(It first, It last)
 {
     using namespace std;
-    while (first < last) {
+    while (std::distance(first, last) > 16) {
         It pivot = median(first, last);
         pivot = partition(first, last, pivot);
 
@@ -59,6 +69,7 @@ void quickSort(It first, It last)
             last = pivot;
         }
     }
+    insertionSort(first, last);
 }
 
 #endif
