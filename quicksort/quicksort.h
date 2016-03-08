@@ -21,16 +21,15 @@ It mypartition(It first, It last, Val pivot)
 {
     --last;
 
+    while (*first < pivot) ++first;
+    while (pivot < *last) --last;
+
     while (first < last) {
+        std::swap(*first, *last);
+        ++first; --last;
+
         while (*first < pivot) ++first;
         while (pivot < *last) --last;
-
-        if (*first != *last) {
-            std::swap(*first, *last);
-        }
-        else if (first < last) {
-            ++first;
-        }
     }
 
     return first;
@@ -57,10 +56,10 @@ void quickSort(It first, It last)
 
         if (mid - first < last - mid) {
             quickSort(first, mid);
-            first = ++mid;
+            first = mid;
         }
         else {
-            quickSort(mid + 1, last);
+            quickSort(mid, last);
             last = mid;
         }
     }
