@@ -32,8 +32,9 @@ void random_iota(It first, It last)
   random_shuffle(first, last);
 }
 
-template <class It>
+template <class Sort, class It>
 double time_sort(
+    Sort sort,
     It first,
     It last,
     It buffer,
@@ -44,7 +45,7 @@ double time_sort(
     while (size <= last - first) {
         std::copy(first, first + size, buffer);
         first += size;
-        quickSort(buffer, buffer + size);
+        sort(buffer, buffer + size);
         if (!std::is_sorted(buffer, buffer + size)) {
             std::cerr << "*** SORT FAILED! ***" << std::endl;
             return 0;
@@ -57,7 +58,7 @@ template <typename T>
 void print_cell(const T& x, int precision = 0) {
     std::cout << "\t" << std::setw(6)
               << std::fixed << std::setprecision(precision)
-              << x << "\n" << std::flush;
+              << x;
 }
 
 int main()
@@ -69,10 +70,29 @@ int main()
     vector<int> tmp(maxSize);
     random_iota(begin(v), end(v));
 
+    std::cout << std::setw(13) << "size\t" << std::setw(6) << "std\t"
+              << std::setw(6) << "my\t" << std::setw(6) << "ratio"
+              << "\n" << std::flush;
     for (size_t size = minSize; size <= maxSize; size *= 2) {
         std::cout << std::setw(12) << size;
-        double t = time_sort(begin(v), end(v), begin(tmp), size);
+        double t = time_sort(
+            [](auto b, auto e) { std::sort(b, e); },
+            begin(v),
+            end(v),
+            begin(tmp),
+            size);
         print_cell(t / maxSize);
+
+        double t2 = time_sort(
+            [](auto b, auto e) { quickSort(b, e); },
+            begin(v),
+            end(v),
+            begin(tmp),
+            size);
+        print_cell(t2 / maxSize);
+
+        print_cell(t2 / t, 2);
+        std::cout << "\n" << std::flush;
     }
 }
 
