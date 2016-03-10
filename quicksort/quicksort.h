@@ -39,9 +39,14 @@ template<class It>
 void insertion_sort(It first, It last)
 {
     for (It i = first + 1; i < last; ++i) {
-        for (It j = i; j != first && *j < *(j - 1); --j) {
-            std::iter_swap(j, j - 1);
+        auto element = *i;
+
+        It j = i;
+        for ( ; j != first && element < *(j - 1); --j) {
+            *j = *(j - 1);
         }
+
+        *j = element;
     }
 }
 
