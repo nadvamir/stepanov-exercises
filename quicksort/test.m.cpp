@@ -55,9 +55,10 @@ double time_sort(
 }
 
 template <typename T>
-void print_cell(const T& x, int precision = 0) {
-    std::cout << "\t" << std::setw(6)
-              << std::fixed << std::setprecision(precision)
+void print_cell(const T& x, int precision = 0)
+{
+    std::cout << std::setw(12) << std::fixed
+              << std::setprecision(precision)
               << x;
 }
 
@@ -70,8 +71,8 @@ int main()
     vector<int> tmp(maxSize);
     random_iota(begin(v), end(v));
 
-    std::cout << std::setw(13) << "size\t" << std::setw(6) << "std\t"
-              << std::setw(6) << "my\t" << std::setw(6) << "ratio"
+    std::cout << std::setw(12) << "size" << std::setw(12) << "std"
+              << std::setw(12) << "my" << std::setw(12) << "ratio"
               << "\n" << std::flush;
     for (size_t size = minSize; size <= maxSize; size *= 2) {
         std::cout << std::setw(12) << size;
