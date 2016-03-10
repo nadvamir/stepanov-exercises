@@ -35,18 +35,24 @@ It mypartition(It first, It last, Val pivot)
     return first;
 }
 
+template<class It, class Value>
+inline
+void unguarded_linear_insert(It first, It last, Value element)
+{
+    while (last != first && element < *(last - 1)) {
+        *last = *(last - 1);
+        --last;
+    }
+
+    *last = element;
+}
+
 template<class It>
+inline
 void insertion_sort(It first, It last)
 {
     for (It i = first + 1; i < last; ++i) {
-        auto element = *i;
-
-        It j = i;
-        for ( ; j != first && element < *(j - 1); --j) {
-            *j = *(j - 1);
-        }
-
-        *j = element;
+        unguarded_linear_insert(first, i, *i);
     }
 }
 
