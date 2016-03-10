@@ -37,6 +37,19 @@ It mypartition(It first, It last, Val pivot)
 
 template<class It, class Value>
 inline
+void guarded_linear_insert(It last, Value element)
+{
+    It previous = last;
+    while (element < *(--previous)) {
+        *last = *previous;
+        --last;
+    }
+
+    *last = element;
+}
+
+template<class It, class Value>
+inline
 void unguarded_linear_insert(It first, It last, Value element)
 {
     It previous = last;
@@ -53,7 +66,8 @@ inline
 void insertion_sort(It first, It last)
 {
     for (It i = first + 1; i < last; ++i) {
-        unguarded_linear_insert(first, i, *i);
+        if (*first < *i) guarded_linear_insert(i, *i);
+        else unguarded_linear_insert(first, i, *i);
     }
 }
 
