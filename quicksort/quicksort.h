@@ -39,8 +39,9 @@ template<class It, class Value>
 inline
 void unguarded_linear_insert(It first, It last, Value element)
 {
-    while (last != first && element < *(last - 1)) {
-        *last = *(last - 1);
+    It previous = last;
+    while (last != first && element < *(--previous)) {
+        *last = *previous;
         --last;
     }
 
