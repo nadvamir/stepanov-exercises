@@ -84,7 +84,7 @@ int main()
         print_cell(t / maxSize);
 
         double t2 = time_sort(
-            [](auto b, auto e) { quickSort(b, e); },
+            [](auto b, auto e) { quick_sort(b, e); },
             begin(v),
             end(v),
             begin(tmp),

@@ -36,7 +36,7 @@ It mypartition(It first, It last, Val pivot)
 }
 
 template<class It>
-void insertionSort(It first, It last)
+void insertion_sort(It first, It last)
 {
     for (It i = first + 1; i < last; ++i) {
         for (It j = i; j != first && *j < *(j - 1); --j) {
@@ -46,24 +46,31 @@ void insertionSort(It first, It last)
 }
 
 template<class It>
-void quickSort(It first, It last)
+void quick_sort_loop(It first, It last, size_t threshold)
 {
     using namespace std;
-    while (std::distance(first, last) > 16) {
+    while (std::distance(first, last) > threshold) {
         It middle = first + (last - first) / 2;
         auto pivot = median(*first, *middle, *(last - 1));
         It mid = mypartition(first, last, pivot);
 
         if (mid - first < last - mid) {
-            quickSort(first, mid);
+            quick_sort_loop(first, mid, threshold);
             first = mid;
         }
         else {
-            quickSort(mid, last);
+            quick_sort_loop(mid, last, threshold);
             last = mid;
         }
     }
-    insertionSort(first, last);
+}
+
+template<class It>
+void quick_sort(It first, It last)
+{
+    const size_t threshold = 16;
+    quick_sort_loop(first, last, threshold);
+    insertion_sort(first, last);
 }
 
 #endif
