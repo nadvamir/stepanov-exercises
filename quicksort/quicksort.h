@@ -74,7 +74,6 @@ void insertion_sort(It first, It last)
 template<class It>
 void quick_sort_loop(It first, It last, size_t threshold)
 {
-    using namespace std;
     while (std::distance(first, last) > threshold) {
         It middle = first + (last - first) / 2;
         auto pivot = median(*first, *middle, *(last - 1));
