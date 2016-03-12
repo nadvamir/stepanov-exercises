@@ -10,6 +10,8 @@
 
 const int COL_W = 8;
 const int FIRST_COL_W = 12;
+const size_t MIN_SIZE = 8;
+const size_t MAX_SIZE = 16 * 1024 * 1024;
 
 class Timer {
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
@@ -66,25 +68,34 @@ void print_cell(const T& x, int precision = 0)
 int main()
 {
     using namespace std;
-    const size_t minSize = 8;
-    const size_t maxSize = 16 * 1024 * 1024;
 
-    vector<int> v(maxSize);
-    vector<int> tmp(maxSize);
+    vector<int> v(MAX_SIZE);
+    vector<int> tmp(MAX_SIZE);
     random_iota(begin(v), end(v));
 
-    std::cout << std::setw(FIRST_COL_W) << "size" << std::setw(COL_W) << "std"
-              << std::setw(COL_W) << "my" << std::setw(COL_W) << "ratio"
+    std::cout << std::setw(FIRST_COL_W + COL_W * 2 - 2) << "std sort"
+              << std::setw(COL_W * 2) << "my sort"
               << "\n" << std::flush;
-    for (size_t size = minSize; size <= maxSize; size *= 2) {
+    std::cout << std::setw(FIRST_COL_W) << "size"
+              << std::setw(COL_W) << "time"
+              << std::setw(COL_W) << "lg2"
+              << std::setw(COL_W) << "time"
+              << std::setw(COL_W) << "lg2"
+              << std::setw(COL_W) << "ratio"
+              << "\n" << std::flush;
+
+    size_t lg = 3;
+    for (size_t size = MIN_SIZE; size <= MAX_SIZE; size *= 2) {
         std::cout << std::setw(FIRST_COL_W) << size;
+
         double t = time_sort(
             [](auto b, auto e) { std::sort(b, e); },
             begin(v),
             end(v),
             begin(tmp),
             size);
-        print_cell(t / maxSize);
+        print_cell(t / MAX_SIZE);
+        print_cell(t / MAX_SIZE / lg);
 
         double t2 = time_sort(
             [](auto b, auto e) { quick_sort(b, e); },
@@ -92,10 +103,13 @@ int main()
             end(v),
             begin(tmp),
             size);
-        print_cell(t2 / maxSize);
+        print_cell(t2 / MAX_SIZE);
+        print_cell(t2 / MAX_SIZE / lg);
 
         print_cell(t2 / t, 2);
         std::cout << "\n" << std::flush;
+
+        ++lg;
     }
 }
 
