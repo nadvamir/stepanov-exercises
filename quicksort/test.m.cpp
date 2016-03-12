@@ -8,7 +8,8 @@
 #include <algorithm>
 #include <chrono>
 
-using namespace std;
+const int COL_W = 8;
+const int FIRST_COL_W = 12;
 
 class Timer {
     std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
@@ -57,13 +58,14 @@ double time_sort(
 template <typename T>
 void print_cell(const T& x, int precision = 0)
 {
-    std::cout << std::setw(12) << std::fixed
+    std::cout << std::setw(COL_W) << std::fixed
               << std::setprecision(precision)
               << x;
 }
 
 int main()
 {
+    using namespace std;
     const size_t minSize = 8;
     const size_t maxSize = 16 * 1024 * 1024;
 
@@ -71,11 +73,11 @@ int main()
     vector<int> tmp(maxSize);
     random_iota(begin(v), end(v));
 
-    std::cout << std::setw(12) << "size" << std::setw(12) << "std"
-              << std::setw(12) << "my" << std::setw(12) << "ratio"
+    std::cout << std::setw(FIRST_COL_W) << "size" << std::setw(COL_W) << "std"
+              << std::setw(COL_W) << "my" << std::setw(COL_W) << "ratio"
               << "\n" << std::flush;
     for (size_t size = minSize; size <= maxSize; size *= 2) {
-        std::cout << std::setw(12) << size;
+        std::cout << std::setw(FIRST_COL_W) << size;
         double t = time_sort(
             [](auto b, auto e) { std::sort(b, e); },
             begin(v),
