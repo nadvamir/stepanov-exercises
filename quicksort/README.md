@@ -2,32 +2,36 @@
 
 The goal of this exercise was to build a generic quicksort algorithm 
 that is comparable to std::sort in speed. I first built a simple quicksort,
-and then proceeded to optimise it for best results. The outcome (speeds in *std* 
-and *my* columns are in ns per element):
+and then proceeded to optimise it for best results. 
+
+This was the outcome. *Time* column shows sorting time per element in nanoseconds,
+and *lg2* is the constant factor (`time / log N`). *Ratio* column shows ratio
+between times per element.
 
 ```
-        size       std      my   ratio
-           8       126     102    0.80
-          16       133     118    0.88
-          32       158     138    0.88
-          64       183     179    0.98
-         128       233     225    0.97
-         256       295     245    0.83
-         512       325     267    0.82
-        1024       354     234    0.66
-        2048       365     310    0.85
-        4096       413     333    0.81
-        8192       443     353    0.80
-       16384       472     342    0.72
-       32768       458     396    0.87
-       65536       531     418    0.79
-      131072       561     439    0.78
-      262144       592     462    0.78
-      524288       622     484    0.78
-     1048576       652     506    0.78
-     2097152       601     527    0.88
-     4194304       596     530    0.89
-     8388608       738     571    0.77
-    16777216       770     594    0.77
+                  std sort         my sort
+        size    time     lg2    time     lg2   ratio
+           8     111      37     107      36    0.97
+          16     126      31     120      30    0.95
+          32     161      32     136      27    0.85
+          64     183      31     152      25    0.83
+         128     205      29     177      25    0.86
+         256     235      29     193      24    0.82
+         512     261      29     205      23    0.79
+        1024     277      28     222      22    0.80
+        2048     296      27     238      22    0.80
+        4096     326      27     256      21    0.79
+        8192     342      26     275      21    0.80
+       16384     366      26     289      21    0.79
+       32768     383      26     318      21    0.83
+       65536     406      25     324      20    0.80
+      131072     426      25     347      20    0.81
+      262144     454      25     361      20    0.80
+      524288     479      25     374      20    0.78
+     1048576     499      25     396      20    0.79
+     2097152     519      25     410      20    0.79
+     4194304     540      25     435      20    0.81
+     8388608     575      25     455      20    0.79
+    16777216     595      25     461      19    0.77
 ```
 
