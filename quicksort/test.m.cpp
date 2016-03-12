@@ -45,15 +45,19 @@ double time_sort(
 {
     Timer t;
     t.start();
+
     while (size <= last - first) {
         std::copy(first, first + size, buffer);
-        first += size;
         sort(buffer, buffer + size);
+
         if (!std::is_sorted(buffer, buffer + size)) {
             std::cerr << "*** SORT FAILED! ***" << std::endl;
             return 0;
         }
+
+        first += size;
     }
+
     return t.stop();
 }
 
