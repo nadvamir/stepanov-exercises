@@ -1,6 +1,7 @@
 #ifndef INCLUDED_PAIR
 #define INCLUDED_PAIR
 
+#define Regular typename
 #define Semiregular typename
 
 template<Semiregular T1, Semiregular T2>
@@ -18,17 +19,18 @@ struct pair {
     {
     }
 
-    friend
-    bool operator==(const pair& p1, const pair& p2)
-    {
-        return p1.first == p2.first && p1.second == p2.second;
-    }
-
-    friend
-    bool operator!=(const pair& p1, const pair& p2)
-    {
-        return !(p1 == p2);
-    }
 };
+
+template<Regular T1, Regular T2>
+bool operator==(const pair<T1, T2>& p1, const pair<T1, T2>& p2)
+{
+    return p1.first == p2.first && p1.second == p2.second;
+}
+
+template<Regular T1, Regular T2>
+bool operator!=(const pair<T1, T2>& p1, const pair<T1, T2>& p2)
+{
+    return !(p1 == p2);
+}
 
 #endif
